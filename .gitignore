@@ -1,0 +1,41 @@
+# Ignore everything by default.
+*
+
+# Allow Git to recurse into directories.
+!*/
+
+# Exclude the virtual environment folder entirely.
+venv/
+
+# Exclude matplotlib's cache directories (e.g. tex.cache) everywhere.
+**/.matplotlib/
+
+# Exclude other cache/build junk everywhere.
+**/__pycache__/
+**/.pytest_cache/
+**/.mypy_cache/
+**/.ruff_cache/
+**/.ipynb_checkpoints/
+
+# Exclude dataset folders everywhere (e.g. CIFAR/MNIST/MSTAR downloads/caches).
+**/*data*/
+
+# Exclude the old/ folder entirely.
+old/
+
+# Track only source/scripts/ParaView state files.
+!*.py
+!*.sh
+!*.pvsm
+!*.tex
+!README.MD
+
+# Keep this ignore policy tracked.
+!.gitignore
+
+# info for cluster 
+readme_HPC
+
+# aura-optax/ is a pip package: track all of it (its own .gitignore
+# excludes build and cache files).
+!aura-optax/**
