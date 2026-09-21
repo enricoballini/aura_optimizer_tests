@@ -1,0 +1,984 @@
+\documentclass[journal]{IEEEtran}
+\usepackage{cite}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{verbatim}
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
+\usepackage{hyperref}
+\usepackage{url}
+
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+% \usepackage{subfigure}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{adjustbox} 
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{amsmath,amssymb}
+\usepackage{amsthm}
+\usepackage{cancel}
+\setcounter{MaxMatrixCols}{20}
+\usepackage{mathrsfs} % \mathscr
+\usepackage{gensymb}
+% sn-jnl loads geometry; do not reload it here.
+\usepackage{cases}
+\usepackage{mathtools} % vcentcolon NON VA
+\usepackage{gensymb} % \degree
+% \usepackage{caption} % loaded by subfig/sn-jnl when needed
+% \usepackage{subcaption} % subfigure
+\usepackage{bm} % \bm
+\hypersetup{colorlinks=true,urlcolor=black,linkcolor=black,citecolor=black}
+\usepackage{cleveref}
+\usepackage{dsfont}
+\usepackage{numprint} 
+\npthousandsep{,}
+\usepackage{marginnote}
+\usepackage{mathtools}
+\usepackage{multirow} %\multirow
+\usepackage{multicol} %\begin{multicols}
+\usepackage{numprint}
+\usepackage{longtable}
+\usepackage[switch]{lineno} % \linenumbers
+\usepackage{yfonts}
+\usepackage{eufrak}
+\usepackage{ulem}
+\usepackage{siunitx}
+%\usepackage{showkeys} % show labels
+\usepackage{rotating}
+\usepackage{algorithm}%
+\usepackage{algorithmicx}%
+\usepackage{algpseudocode}%
+% titlesec is not loaded under IEEEtran: it clobbers the class's own
+% \appendix/\section heading logic (drops the appendix title text)
+% even when \titleformat is never called. \appendixsectionformat
+% below is therefore unused dead code, kept only for reference.
+\usepackage{xparse}
+\usepackage{comment}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage[section]{placeins}
+\usepackage{microtype}
+%\usepackage[settings]{markdown}
+
+\newcommand{\sib}[1]{[\si{#1}]}
+\newcommand{\id}[0]{\text{Id}}
+\newcommand{\myif}[0]{\text{ if }}
+\newcommand{\myelse}[0]{\text{ else }}
+\newcommand{\partialder}[2]{\frac{\partial#1}{\partial#2}}
+\newcommand{\der}[2]{\frac{d#1}{d#2}}
+\newcommand{\secondder}[2]{\frac{d^2#1}{d#2^2}}
+\NewDocumentCommand{\secondpartialder}{m m o}{\IfNoValueTF{#3}{
+		% Only 2 arguments given
+		\frac{\partial^2 #1}{\partial #2^2}
+	}{
+		% 3 arguments given
+		\frac{\partial^2 #1}{\partial #2 \partial #3}
+	}
+}
+\newcommand{\partialderlong}[2]{ \frac{\partial}{\partial#2}\left(#1\right) }
+\newcommand{\derlong}[2]{ \frac{d}{d#2}\left(#1\right) }
+\newcommand{\divergence}[0]{\nabla \cdot}
+\newcommand{\divergencex}[0]{\nabla_x \cdot}
+\newcommand{\divergencexs}[0]{\nabla_{xs} \cdot}
+\newcommand{\curl}[0]{\nabla \times}
+\newcommand{\laplacian}[0]{\nabla^2}
+\newcommand{\bilaplacian}[0]{\nabla^4}
+\newcommand{\trace}[0]{\text{tr}}
+
+\newcommand{\myw}[0]{{\scriptstyle W}}
+\newcommand{\loss}[0]{\mathscr{L}}
+\newcommand{\on}[0]{\ \mathrm{on} \ }
+\newcommand{\vf}[1]{\mathscr{#1}}
+\newcommand{\rmif}[0]{\quad \mathrm{if} \ }
+\newcommand{\rmelse}[0]{\quad \mathrm{else} \ }
+\newcommand{\adj}[0]{\mathrm{adj}}
+\newcommand{\col}[0]{\text{col}}
+\newcommand{\diagmatrix}[1]{\begin{bmatrix}
+		\ddots & &\\
+		& #1 & \\
+		& & \ddots
+\end{bmatrix}}
+\newcommand{\dotvect}[1]{\begin{bmatrix}
+		\vdots \\
+		#1 \\
+		\vdots
+\end{bmatrix}}
+
+\makeatletter
+\newcommand{\slantedparallel}{\mathrel{\mathpalette\new@parallel\relax}}
+\newcommand{\new@parallel}[2]{
+	\begingroup
+	\sbox\z@{$#1T$}% get the height of an uppercase letter
+	\resizebox{!}{\ht\z@}{\raisebox{\depth}{$\m@th#1/\mkern-5mu/$}}%
+	\endgroup
+}
+\makeatother
+\newcommand{\up}{\text{\tiny$\uparrow$}}
+\newcommand{\dwn}{\text{\tiny$\downarrow$}}
+
+\newcommand{\lfsout}[1]{\lf{\sout{#1}}}
+\newcommand{\ut}[0]{\mathrm{u}}
+\newcommand{\vt}[0]{\mathrm{v}}
+\newcommand{\uut}[0]{{\scriptstyle\mathfrak{U}}}
+\newcommand{\wt}[0]{\mathrm{w}}
+\newcommand{\m}[1]{\underline#1}
+\newcommand{\mm}[1]{\underline{\underline{#1}}}
+\newcommand{\qif}[0]{\quad \text{if}}
+\newcommand{\lip}[0]{\text{Lip}}
+\newcommand{\eps}[0]{\varepsilon}
+\newcommand{\Eps}{
+	\mathchoice
+	{\displaystyle\scalebox{1.3}{$\varepsilon$}}
+	{\textstyle\scalebox{1.3}{$\varepsilon$}}
+	{\scriptstyle\scalebox{1.2}{$\varepsilon$}}
+	{\scriptscriptstyle\scalebox{1.1}{$\varepsilon$}}
+}
+\newcommand{\err}[0]{\text{err}}
+\newcommand{\step}[0]{\text{step}}
+\newcommand{\node}[0]{$n$-ODE}
+\newcommand{\Node}[0]{$N$-ODE}
+\newcommand{\varzeta}{\mathscr{Z}}
+\newcommand{\real}[0]{\text{Re}}
+\newcommand{\imag}[0]{\text{Im}}
+\newcommand{\RR}[0]{\mathbb{R}}
+\newcommand{\CC}[0]{\mathbb{C}}
+\newcommand{\NN}[0]{\mathbb{N}}
+
+\newcommand{\bfu}[0]{\boldsymbol{u}}
+\newcommand{\bfsigma}[0]{\boldsymbol{\sigma}}
+\newcommand{\bfeps}[0]{\boldsymbol{\eps}}
+\newcommand{\bfn}[0]{\boldsymbol{n}}
+\newcommand{\bfP}[0]{\boldsymbol{P}}
+\newcommand{\bfPhi}[0]{\boldsymbol{\Phi}}
+\newcommand{\bfx}[0]{\boldsymbol{x}}
+\newcommand{\bfd}[0]{\boldsymbol{d}}
+\newcommand{\bft}[0]{\boldsymbol{t}}
+\newcommand{\bfa}[0]{\boldsymbol{a}}
+\newcommand{\bfb}[0]{\boldsymbol{b}}
+\newcommand{\bfc}[0]{\boldsymbol{c}}
+\newcommand{\bfg}[0]{\boldsymbol{g}}
+\newcommand{\bfe}[0]{\boldsymbol{e}}
+\newcommand{\bfr}[0]{\boldsymbol{r}}
+
+\providecommand{\bfv}{\boldsymbol{v}}
+\providecommand{\bfq}{\boldsymbol{q}}
+\providecommand{\bfg}{\boldsymbol{g}}
+
+	
+
+\newcommand{\boundarylapl}[1][]{\mathcal{B}_{{\scriptscriptstyle L}\if\relax\detokenize{#1}\relax\else,#1\fi}}
+\newcommand{\boundarymech}[1][]{\mathcal{B}_{{\scriptscriptstyle M}\if\relax\detokenize{#1}\relax\else,#1\fi}
+}
+% style commands:
+\newcommand{\appendixsectionformat}{
+	\titleformat{\section}
+	{\normalfont\Large\bfseries}
+	{Appendix \thesection}{1em}{}
+}	
+
+%\setlength{\parindent}{0pt}
+
+\newtheorem{theorem}{Theorem}[section] 
+\newtheorem{lemma}[theorem]{Lemma}     
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{problem}{Problem}
+
+\theoremstyle{definition}              
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}{Remark}[section]
+\newtheorem{observation}{Observation}[section]
+\newtheorem{example}[theorem]{Example}
+
+\crefname{theorem}{theorem}{theorems}
+\Crefname{theorem}{Theorem}{Theorems}
+
+\crefname{lemma}{lemma}{lemmas}
+\Crefname{lemma}{Lemma}{Lemmas}
+
+\crefname{proposition}{proposition}{propositions}
+\Crefname{proposition}{Proposition}{Propositions}
+
+\crefname{problem}{problem}{problems}
+\Crefname{problem}{Problem}{Problems}
+
+\crefname{definition}{definition}{definitions}
+\Crefname{definition}{Definition}{Definitions}
+
+\crefname{remark}{remark}{remarks}
+\Crefname{remark}{Remark}{Remarks}
+
+\crefname{observation}{observation}{observations}
+\Crefname{observation}{Observation}{Observations}
+
+\crefname{example}{example}{examples}
+\Crefname{example}{Example}{Examples}
+
+
+% colors:
+\definecolor{raspberry}{rgb}{1,0,0.2}
+\definecolor{darkred}{rgb}{0.5,0.1,0.1}
+\definecolor{darkgreen}{rgb}{0.1,0.6,0.2}
+
+% comments commands:
+% marginnote has no usable margin to draw into under the IEEEtran
+% two-column layout (unlike the former article-class geometry), so
+% \note** render inline in scriptsize instead of in the margin.
+\newcommand{\eb}[1]{{\color{TealBlue}#1}}
+\newcommand{\noteeb}[1]{{\scriptsize\eb{#1}}}
+
+\newcommand{\ta}[1]{{\color{Mahogany}#1}}
+\newcommand{\noteta}[1]{{\scriptsize\ta{#1}}}
+
+\newcommand{\ap}[1]{{\color{Melon}#1}}
+\newcommand{\noteap}[1]{{\scriptsize\ap{#1}}}
+
+\newcommand{\cl}[1]{{\color{WildStrawberry}#1}}
+
+
+\newcommand{\rev}[1]{{\color{Brown}#1}}
+
+% marks algorithm content added after the original AURA-ADAM submission
+% (the magnitude-aware gate q_{j,t} and the ablation switches); revert
+% to \newcommand{\upd}[1]{#1} to render the "clean", uncolored version.
+\newcommand{\upd}[1]{{\color{blue}#1}}
+
+% marks every documented deviation of TEST 7 from the reproduced
+% reference setup of Mayer et al. (2025); revert to
+% \newcommand{\diff}[1]{#1} to render the "clean", uncolored version.
+\newcommand{\diff}[1]{{\color{red}#1}}
+
+% marca in verde la bozza di email agli autori di \cite{Mayer2025},
+% in fondo al documento: non e' contenuto dell'articolo, va tolta
+% prima della submission. ForestGreen invece di green puro perche'
+% quest'ultimo e' illeggibile su bianco.
+\newcommand{\bozza}[1]{{\color{ForestGreen}#1}}
+
+% marca in blu le affermazioni ORA FALSE, da riscrivere: descrivono il
+% vecchio TEST 7 a minibatch (batch 64, 7.8e4 update), mentre il codice
+% riproduce ora il regime online del riferimento per intero (batch 1,
+% 1000 epoche x 5e3 = 5e6 update). Colore diverso da \diff (rosso, le
+% deviazioni volute e documentate): qui non c'e' nulla da documentare,
+% c'e' da correggere. Cercare "\falso" per trovarle tutte; una volta
+% riscritte, eliminare marcatore e macro.
+\newcommand{\falso}[1]{{\color{blue}#1}}
+
+%% Bibliography options
+% Citation style is set by the Springer Nature class option sn-mathphys-num.
+% \usepackage[numbers,square]{natbib}
+	
+	
+	
+
+\title{AURA: Angular Update Rate Adaptation for training complex-valued neural networks}
+
+\author{
+	Enrico~Ballini\textsuperscript{1},
+	Allan~Peter~Engsig-Karup\textsuperscript{2},
+	and~Tito~Andriollo\textsuperscript{1}
+	\thanks{Corresponding author: Enrico Ballini (e-mail: enrico.ballini@gmail.com).}
+	\thanks{\textsuperscript{1}Aarhus University, Aarhus, Denmark.}
+	\thanks{\textsuperscript{2}Technical University of Denmark, Kongens Lyngby, Denmark.}
+}
+
+\begin{document}
+
+\begin{table*}[!t]
+	\centering
+	\caption{Hyperparameters of AURA}
+	\label{tab:aura_hyperparameters}
+	\small
+	\begin{tabular}{@{}lll@{}}
+		\toprule
+		Symbol & Range & Role \\
+		\midrule
+		%
+		\multicolumn{3}{@{}l}{\emph{Consistency variable \eqref{eq:consistency}}}\\
+		$\beta_\zeta$ & $[0,1)$ & Decay rate of the average $\tilde\zeta_{j,t}$ \\
+		$\eps_{\mathrm E}$ & $> 0$ & Safeguard on the denominator of $\zeta_{j,t}$ \\
+		\midrule
+		%
+		\multicolumn{3}{@{}l}{\emph{``Delta-bar-delta''-style $\alpha$ adjustment \eqref{eq:lr_multiplier}}}\\
+		$\chi_{\mathrm a}$ & $(\chi_{\mathrm o},1]$ & Alignment threshold for growth \\
+		$\chi_{\mathrm o}$ & $[-1,\chi_{\mathrm a})$ & Opposition threshold forcing decrease \\
+		$\Psi_{\mathrm a}$ & $[0,\Psi_{\mathrm o})$ & Rotation tolerance for growth \\
+		$\Psi_{\mathrm o}$ & $(\Psi_{\mathrm a},1]$ & Rotation threshold forcing decrease \\
+		$\eta_-$ & $(0,1)$ & Decrease factor of $\gamma_{j,t}$ \\
+		$\eta_+$ & $> 1$ & Increase factor of $\gamma_{j,t}$ \\
+		$\gamma_{\min}$ & $(0,1]$ & Floor on the multiplier \\
+		$\gamma_{\max}$ & $\geq 1$ & Ceiling on the multiplier \\
+		\midrule
+		\multicolumn{3}{@{}l}{\emph{Update \eqref{eq:weight_update}}}\\
+		$\lambda$ & $\geq 0$ & Decoupled (AdamW) weight decay \\
+		\bottomrule
+	\end{tabular}
+\end{table*}
+
+% BEGIN GENERATED TABLE: optimizer_settings_shared
+% Generated by update_paper_assets.py; do not edit manually.
+\begin{table*}[!t]
+\centering
+\caption{Default hyperparameters used in the benchmark cases in \Cref{sec:benchmarks}.}
+\label{tab:optimizer_settings_shared}
+\small
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Optimizer & Hyperparameters \\
+\midrule
+RPROP & $\eta_-=0.5$, $\eta_+=1.2$, $\Delta\in[1\times 10^{-6},50]$; $\Delta_0=\alpha$ \\
+Adam & $\beta_1=0.9$, $\beta_2=0.999$, $\eps_{\mathrm A}=1\times 10^{-8}$ \\
+Adam (variable LR) & Same $\beta_1,\beta_2,\eps_{\mathrm A}$ as Adam; learning rate $\alpha$ for the first $50\%$ of updates, then $\alpha/10$ \\
+NadamW & $\beta_1=0.9$, $\beta_2=0.999$, $\epsilon=1\times 10^{-8}$, weight decay: $1\times 10^{-4}$ \\
+CvAMSGrad & $\beta_1=0.9$, $\beta_2=0.999$, $\eps_{\mathrm A}=1\times 10^{-8}$; bias correction included \\
+Muon & $\beta=0.95$, Newton--Schulz steps: 5, Nesterov: yes, weight decay: $0$; matrix step $10\,\alpha$; bias fallback AdamW at $\beta_1=0.9$, $\beta_2=0.999$, $\eps_{\mathrm A}=1\times 10^{-8}$ \\
+Adam-AURA & $\beta_\zeta=0.95$, $\eps_{\mathrm E}=1\times 10^{-6}$, $\chi_\mathrm{a}=0.7$, $\chi_\mathrm{o}=0.4$, $\Psi_\mathrm{a}=0.015$, $\Psi_\mathrm{o}=0.3$, $\eta_-=0.99$, $\eta_+=1.01$, $\gamma\in[1\times 10^{-3},1000]$, $\lambda=1\times 10^{-4}$ \\
+Muon-AURA & $\beta=0.95$, Newton--Schulz steps: 5, Nesterov: yes, matrix step $10\,\alpha$; $\beta_\zeta=0.95$, $\eps_{\mathrm E}=1\times 10^{-6}$, $\chi_\mathrm{a}=0.75$, $\chi_\mathrm{o}=0.4$, $\Psi_\mathrm{a}=0.01$, $\Psi_\mathrm{o}=0.2$, $\eta_-=0.99$, $\eta_+=1.01$, $\gamma\in[1\times 10^{-3},1000]$, $\lambda=1\times 10^{-4}$; bias direction Adam at $\beta_1=0.9$, $\beta_2=0.999$, $\eps_{\mathrm A}=1\times 10^{-8}$ \\
+\bottomrule
+\end{tabularx}
+\end{table*}
+
+% END GENERATED TABLE: optimizer_settings_shared
+
+% BEGIN GENERATED TABLE: optimizer_settings_non_holomorphic
+% Generated by update_paper_assets.py; do not edit manually.
+\begin{table}[!ht]
+\centering
+\caption{Configuration of the Non-holomorphic optimizer benchmark.}
+\label{tab:optimizer_settings_non_holomorphic}
+\small
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.32\linewidth}X@{}}
+\toprule
+Setting & Value \\
+\midrule
+Primary architecture & $(1,32,32,32,32,1)$, \numprint{3265} trainable parameters \\
+Secondary architecture & $(1,128,128,128,128,128,1)$, \numprint{66433} trainable parameters \\
+Hidden activation & $\operatorname{SiLU}(\real\zeta)+\mathrm i\operatorname{SiLU}(\imag\zeta)$ \\
+Training / test set & \numprint{2500} / $500$ points (test: 20\%) \\
+Mini-batch size & $256$ points \\
+Updates / seeds & \numprint{12000} / $\{0,\ldots,4\}$ \\
+Arithmetic & \texttt{complex64} (32-bit real components) \\
+Initialization & Glorot/Xavier normal rule \cite{Glorot2010}, applied separately to the real and imaginary parts; zero biases \\
+Base learning rate $\alpha$ (primary) & $5\times 10^{-4}$ \\
+Secondary-architecture learning rate & $5\times 10^{-5}$ \\
+Optimizer hyperparameters & default values; see \Cref{tab:optimizer_settings_shared} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% END GENERATED TABLE: optimizer_settings_non_holomorphic
+\FloatBarrier
+
+% BEGIN GENERATED TABLE: optimizer_training_time_non_holomorphic
+% Generated by update_paper_assets.py; do not edit manually.
+\begin{table*}[!t]
+\centering
+\caption{Step-size sensitivity for the Non-holomorphic benchmark.}
+\label{tab:optimizer_training_time_non_holomorphic}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{adjustbox}{max width=\linewidth,center}
+\begin{tabular}{@{}ll*{7}{c}@{}}
+\toprule
+ & & \multicolumn{3}{c}{$\mathscr{L}_{\min}^{(m)}\ (\times10^{-6})$} & \multicolumn{3}{c}{$A^{(m)}$} & Training time ($\times$SGD) \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-9}
+Arch. & Optimizer & $\alpha/10$ & $\alpha$ & $10\alpha$ & $\alpha/10$ & $\alpha$ & $10\alpha$ & $\alpha$ \\
+\midrule
+\multirow{8}{*}{Primary} & RPROP & \mbox{$34^{+19}_{-8}$} & \mbox{$203^{+6}_{-93}$} & \mbox{$41^{+6}_{-14}$} & \mbox{$5.9^{+0.3}_{-0.1}$} & \mbox{$6.6^{+0.01}_{-0.2}$} & \mbox{$6.1^{+0.1}_{-0.3}$} & \mbox{$1.67^{+0.0002}_{-0.02}$} \\
+ & Adam & \mbox{$167^{+92}_{-52}$} & \mbox{$4.6^{+0.5}_{-0.1}$} & \mbox{$1.3^{+0.1}_{-0.2}$} & \mbox{$7.3^{+0.1}_{-0.1}$} & \mbox{$5.8^{+0.1}_{-0.03}$} & \mbox{$5.4^{+0.01}_{-0.04}$} & \mbox{$1.59^{+0.005}_{-0.04}$} \\
+ & Adam (variable LR) & \mbox{$614^{+106}_{-116}$} & \mbox{$7.6^{+2.5}_{-0.4}$} & \mbox{$1.5^{+0.2}_{-0.03}$} & \mbox{$7.4^{+0.1}_{-0.1}$} & \mbox{$5.8^{+0.1}_{-0.01}$} & \mbox{$5.1^{+0.002}_{-0.001}$} & \mbox{$\bm{1.580^{+0.006}_{-0.012}}$} \\
+ & NadamW & \mbox{$151^{+99}_{-49}$} & \mbox{$5.6^{+0.7}_{-0.2}$} & \mbox{$1.1^{+0.1}_{-0.02}$} & \mbox{$7.3^{+0.1}_{-0.1}$} & \mbox{$5.9^{+0.1}_{-0.05}$} & \mbox{$5.8^{+0.02}_{-0.03}$} & \mbox{$1.59^{+0.04}_{-0.01}$} \\
+ & CvAMSGrad & \mbox{$893^{+119}_{-94}$} & \mbox{$16^{+0.3}_{-4}$} & \mbox{$2.2^{+0.3}_{-0.02}$} & \mbox{$7.4^{+0.05}_{-0.002}$} & \mbox{$6.1^{+0.05}_{-0.1}$} & \mbox{$5.1^{+0.01}_{-0.04}$} & \mbox{$1.6^{+0.1}_{-0.2}$} \\
+ & Muon & \mbox{$0.2^{+0.4}_{-0.01}$} & \mbox{$32^{+3}_{-0.4}$} & \mbox{$283^{+60}_{-44}$} & \mbox{$5.3^{+0.02}_{-0.003}$} & \mbox{$6.0^{+0.01}_{-0.002}$} & \mbox{$7.0^{+0.001}_{-0.01}$} & \mbox{$1.88^{+0.0002}_{-0.02}$} \\
+ & Adam-AURA & \mbox{$3.0^{+2.1}_{-0.4}$} & \mbox{$3.9^{+0.1}_{-1.9}$} & \mbox{$1.7^{+0.8}_{-0.04}$} & \mbox{$5.3^{+0.1}_{-0.1}$} & \mbox{$5.1^{+0.1}_{-0.1}$} & \mbox{$4.8^{+0.03}_{-0.1}$} & \mbox{$1.64^{+0.11}_{-0.01}$} \\
+ & Muon-AURA & \mbox{$\bm{0.1^{+0.003}_{-0.002}}$} & \mbox{$\bm{0.04^{+0.004}_{-0.005}}$} & \mbox{$\bm{0.01^{+0.001}_{-0.0001}}$} & \mbox{$\bm{3.4^{+0.1}_{-0.003}}$} & \mbox{$\bm{3.1^{+0.04}_{-0.1}}$} & \mbox{$\bm{2.7^{+0.003}_{-0.01}}$} & \mbox{$1.80^{+0.09}_{-0.03}$} \\
+\cmidrule(lr){1-9}
+\multirow{8}{*}{Secondary} & RPROP & \mbox{$9.2^{+19.1}_{-0.2}$} & \mbox{$16^{+4}_{-2}$} & \mbox{$17^{+1}_{-1}$} & \mbox{$5.4^{+0.4}_{-0.04}$} & \mbox{$5.7^{+0.03}_{-0.1}$} & \mbox{$5.6^{+0.1}_{-0.05}$} & \mbox{$1.70^{+0.02}_{-0.01}$} \\
+ & Adam & \mbox{$1505^{+4}_{-103}$} & \mbox{$28^{+4}_{-8}$} & \mbox{$3.4^{+0.2}_{-0.1}$} & \mbox{$8.0^{+0.01}_{-0.04}$} & \mbox{$6.8^{+0.02}_{-0.05}$} & \mbox{$5.9^{+0.01}_{-0.1}$} & \mbox{$1.65^{+0.08}_{-0.01}$} \\
+ & Adam (variable LR) & \mbox{$1786^{+21}_{-6}$} & \mbox{$305^{+12}_{-23}$} & \mbox{$4.4^{+0.3}_{-0.6}$} & \mbox{$8.0^{+0.01}_{-0.04}$} & \mbox{$7.0^{+0.02}_{-0.02}$} & \mbox{$5.7^{+0.01}_{-0.2}$} & \mbox{$\bm{1.64^{+0.01}_{-0.02}}$} \\
+ & NadamW & \mbox{$1494^{+9}_{-93}$} & \mbox{$27^{+1}_{-5}$} & \mbox{$3.7^{+0.8}_{-0.01}$} & \mbox{$8.0^{+0.01}_{-0.04}$} & \mbox{$6.8^{+0.02}_{-0.03}$} & \mbox{$6.1^{+0.01}_{-0.03}$} & \mbox{$1.64^{+0.01}_{-0.02}$} \\
+ & CvAMSGrad & \mbox{$1785^{+16}_{-24}$} & \mbox{$287^{+18}_{-14}$} & \mbox{$4.1^{+0.2}_{-0.7}$} & \mbox{$7.9^{+0.01}_{-0.05}$} & \mbox{$7.0^{+0.04}_{-0.01}$} & \mbox{$5.7^{+0.03}_{-0.1}$} & \mbox{$1.66^{+0.002}_{-0.02}$} \\
+ & Muon & \mbox{$50^{+6}_{-14}$} & \mbox{$3.5^{+0.3}_{-0.3}$} & \mbox{$55^{+0.1}_{-0.3}$} & \mbox{$8.4^{+0.01}_{-0.1}$} & \mbox{$5.2^{+0.02}_{-0.01}$} & \mbox{$6.1^{+0.01}_{-0.01}$} & \mbox{$2.218^{+0.010}_{-0.0003}$} \\
+ & Adam-AURA & \mbox{$1.5^{+0.1}_{-0.2}$} & \mbox{$1.6^{+0.2}_{-0.4}$} & \mbox{$0.6^{+0.2}_{-0.2}$} & \mbox{$5.4^{+0.01}_{-0.1}$} & \mbox{$4.9^{+0.2}_{-0.01}$} & \mbox{$4.6^{+0.1}_{-0.01}$} & \mbox{$1.68^{+0.05}_{-0.05}$} \\
+ & Muon-AURA & \mbox{$\bm{0.02^{+0.001}_{-0.001}}$} & \mbox{$\bm{0.01^{+0.0004}_{-0.0003}}$} & \mbox{$\bm{0.01^{+0.0004}_{-0.000004}}$} & \mbox{$\bm{2.9^{+0.03}_{-0.02}}$} & \mbox{$\bm{2.8^{+0.02}_{-0.01}}$} & \mbox{$\bm{2.6^{+0.01}_{-0.04}}$} & \mbox{$2.147^{+0.015}_{-0.003}$} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table*}
+
+% END GENERATED TABLE: optimizer_training_time_non_holomorphic
+\FloatBarrier
+
+% BEGIN GENERATED FIGURE: optimizer_losses_non_holomorphic
+\begin{figure*}[!t]
+	\centering
+	\textbf{Loss: TEST 1 -- non-holomorphic}\par\vspace{0.3\baselineskip}
+	\begin{minipage}[c]{0.02\linewidth}
+		\centering
+		\rotatebox{90}{Primary architecture}
+	\end{minipage}%
+	\begin{minipage}[c]{0.98\linewidth}
+		\centering
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{$\alpha/10$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=1]{figures/optimizer_losses_non_holomorphic.pdf}
+		\end{minipage}\\
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{$\alpha$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=2]{figures/optimizer_losses_non_holomorphic.pdf}
+		\end{minipage}\\
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{$10\alpha$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=3]{figures/optimizer_losses_non_holomorphic.pdf}
+		\end{minipage}
+	\end{minipage}\\[0.8\baselineskip]
+	\begin{minipage}[c]{0.02\linewidth}
+		\centering
+		\rotatebox{90}{Secondary architecture}
+	\end{minipage}%
+	\begin{minipage}[c]{0.98\linewidth}
+		\centering
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{$\alpha/10$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=4]{figures/optimizer_losses_non_holomorphic.pdf}
+		\end{minipage}\\
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{$\alpha$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=5]{figures/optimizer_losses_non_holomorphic.pdf}
+		\end{minipage}\\
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{$10\alpha$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=6]{figures/optimizer_losses_non_holomorphic.pdf}
+		\end{minipage}
+	\end{minipage}
+	\par\vspace{0.4\baselineskip}
+	\includegraphics{figures/optimizer_losses_non_holomorphic_legend.pdf}
+	\par\vspace{0.2\baselineskip}
+	\caption{Training-set and test-set mean squared errors for the
+	Non-holomorphic optimizer benchmark. The two architecture blocks show
+	the network trained at the primary (top) and secondary (bottom)
+	architecture (\Cref{tab:optimizer_settings_non_holomorphic}).
+	Within each block, the rows sweep the base learning rate $\alpha$ across
+	$\alpha/10$, $\alpha$ and $10\alpha$ from top to bottom. Solid curves
+	show the pointwise median over all
+	$5$ seeds; shaded regions span the interquartile range (25th--75th	
+	percentile) over seeds, whose edges are also drawn as dotted curves.}
+	\label{fig:optimizer_losses_non_holomorphic}
+\end{figure*}
+
+% END GENERATED FIGURE: optimizer_losses_non_holomorphic
+\FloatBarrier
+
+% BEGIN GENERATED TABLE: optimizer_beta_sweep_non_holomorphic
+% Generated by update_paper_assets.py; do not edit manually.
+\begin{table*}[!t]
+\centering
+\caption{$\beta_1$/$\beta_2$ sensitivity for the Non-holomorphic benchmark.}
+\label{tab:optimizer_beta_sweep_non_holomorphic}
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{adjustbox}{max width=\textwidth,center}
+\begin{tabular}{@{}ll*{8}{c}@{}}
+\toprule
+$\beta_1$ & $\beta_2$ & \multicolumn{1}{c}{\rotatebox[origin=l]{90}{RPROP}} & \multicolumn{1}{c}{\rotatebox[origin=l]{90}{Adam}} & \multicolumn{1}{c}{\rotatebox[origin=l]{90}{Adam (variable LR)}} & \multicolumn{1}{c}{\rotatebox[origin=l]{90}{NadamW}} & \multicolumn{1}{c}{\rotatebox[origin=l]{90}{CvAMSGrad}} & \multicolumn{1}{c}{\rotatebox[origin=l]{90}{Muon}} & \multicolumn{1}{c}{\rotatebox[origin=l]{90}{Adam-AURA}} & \multicolumn{1}{c}{\rotatebox[origin=l]{90}{Muon-AURA}} \\
+\midrule
+ & & \multicolumn{8}{c}{$\mathscr{L}_{\min}^{(m)}\ (\times10^{-6})$} \\
+\cmidrule(lr){3-10}
+$0.85$ & $0.99$ & \mbox{$110^{+49}_{-15}$} & \mbox{$4.4^{+0.2}_{-0.4}$} & \mbox{$5.5^{+0.4}_{-0.7}$} & \mbox{$5.2^{+1.9}_{-0.2}$} & \mbox{$55^{+37}_{-5}$} & \mbox{$41^{+0.2}_{-4}$} & \mbox{$5.8^{+1.1}_{-1.0}$} & \mbox{$\bm{0.04^{+0.01}_{-0.001}}$} \\
+$0.9$ & $0.99$ & \mbox{$110^{+50}_{-15}$} & \mbox{$3.8^{+0.04}_{-0.4}$} & \mbox{$4.9^{+0.03}_{-0.5}$} & \mbox{$5.1^{+0.4}_{-0.8}$} & \mbox{$58^{+45}_{-0.1}$} & \mbox{$34^{+2}_{-2}$} & \mbox{$2.0^{+0.6}_{-0.3}$} & \mbox{$\bm{0.04^{+0.002}_{-0.003}}$} \\
+$0.95$ & $0.99$ & \mbox{$110^{+50}_{-15}$} & \mbox{$2.6^{+0.4}_{-0.03}$} & \mbox{$4.1^{+0.1}_{-0.4}$} & \mbox{$3.3^{+0.2}_{-0.4}$} & \mbox{$151^{+29}_{-37}$} & \mbox{$30^{+1}_{-0.1}$} & \mbox{$0.5^{+0.8}_{-0.04}$} & \mbox{$\bm{0.03^{+0.003}_{-0.002}}$} \\
+$0.85$ & $0.999$ & \mbox{$110^{+50}_{-15}$} & \mbox{$5.7^{+0.2}_{-0.4}$} & \mbox{$8.0^{+1.4}_{-0.1}$} & \mbox{$7.5^{+2.2}_{-0.4}$} & \mbox{$15^{+2}_{-2}$} & \mbox{$39^{+1}_{-3}$} & \mbox{$5.3^{+2.2}_{-1.0}$} & \mbox{$\bm{0.04^{+0.01}_{-0.003}}$} \\
+$0.9$ & $0.999$ & \mbox{$128^{+41}_{-24}$} & \mbox{$4.9^{+0.1}_{-0.2}$} & \mbox{$7.6^{+1.3}_{-0.2}$} & \mbox{$6.6^{+0.4}_{-0.6}$} & \mbox{$16^{+2}_{-2}$} & \mbox{$37^{+0.1}_{-3}$} & \mbox{$1.9^{+1.1}_{-0.1}$} & \mbox{$\bm{0.04^{+0.01}_{-0.001}}$} \\
+$0.95$ & $0.999$ & \mbox{$110^{+50}_{-15}$} & \mbox{$4.1^{+0.1}_{-0.1}$} & \mbox{$9.3^{+0.02}_{-1.1}$} & \mbox{$4.4^{+0.3}_{-0.01}$} & \mbox{$21^{+2}_{-2}$} & \mbox{$27^{+2}_{-1}$} & \mbox{$0.6^{+0.8}_{-0.1}$} & \mbox{$\bm{0.03^{+0.003}_{-0.0002}}$} \\
+$0.85$ & $0.9999$ & \mbox{$128^{+41}_{-24}$} & \mbox{$9.2^{+0.5}_{-0.3}$} & \mbox{$35^{+1}_{-5}$} & \mbox{$11^{+2}_{-0.5}$} & \mbox{$6.5^{+1.0}_{-0.3}$} & \mbox{$30^{+3}_{-7}$} & \mbox{$10^{+0.3}_{-2}$} & \mbox{$\bm{0.04^{+0.01}_{-0.003}}$} \\
+$0.9$ & $0.9999$ & \mbox{$110^{+50}_{-15}$} & \mbox{$8.7^{+0.5}_{-0.4}$} & \mbox{$36^{+0.4}_{-5}$} & \mbox{$9.3^{+0.6}_{-0.5}$} & \mbox{$6.5^{+0.7}_{-0.2}$} & \mbox{$20^{+3}_{-7}$} & \mbox{$3.1^{+1.2}_{-0.1}$} & \mbox{$\bm{0.04^{+0.01}_{-0.001}}$} \\
+$0.95$ & $0.9999$ & \mbox{$110^{+50}_{-15}$} & \mbox{$10^{+1}_{-0.1}$} & \mbox{$40^{+6}_{-2}$} & \mbox{$9.7^{+0.5}_{-0.3}$} & \mbox{$7.4^{+0.5}_{-0.4}$} & \mbox{$7.9^{+10.2}_{-0.9}$} & \mbox{$1.2^{+0.8}_{-0.1}$} & \mbox{$\bm{0.03^{+0.004}_{-0.001}}$} \\
+\midrule
+ & & \multicolumn{8}{c}{$A^{(m)}$} \\
+\cmidrule(lr){3-10}
+$0.85$ & $0.99$ & \mbox{$6.4^{+0.1}_{-0.1}$} & \mbox{$5.6^{+0.1}_{-0.05}$} & \mbox{$5.5^{+0.1}_{-0.1}$} & \mbox{$5.9^{+0.1}_{-0.04}$} & \mbox{$6.6^{+0.1}_{-0.1}$} & \mbox{$6.0^{+0.005}_{-0.01}$} & \mbox{$5.2^{+0.1}_{-0.1}$} & \mbox{$\bm{3.1^{+0.04}_{-0.03}}$} \\
+$0.9$ & $0.99$ & \mbox{$6.4^{+0.1}_{-0.1}$} & \mbox{$5.5^{+0.04}_{-0.05}$} & \mbox{$5.4^{+0.04}_{-0.1}$} & \mbox{$5.7^{+0.1}_{-0.04}$} & \mbox{$6.7^{+0.05}_{-0.1}$} & \mbox{$6.0^{+0.01}_{-0.01}$} & \mbox{$4.9^{+0.1}_{-0.1}$} & \mbox{$\bm{3.1^{+0.003}_{-0.04}}$} \\
+$0.95$ & $0.99$ & \mbox{$6.4^{+0.1}_{-0.1}$} & \mbox{$5.4^{+0.04}_{-0.1}$} & \mbox{$5.4^{+0.03}_{-0.1}$} & \mbox{$5.4^{+0.04}_{-0.05}$} & \mbox{$6.8^{+0.02}_{-0.1}$} & \mbox{$5.9^{+0.01}_{-0.01}$} & \mbox{$4.4^{+0.2}_{-0.03}$} & \mbox{$\bm{3.0^{+0.02}_{-0.02}}$} \\
+$0.85$ & $0.999$ & \mbox{$6.4^{+0.1}_{-0.1}$} & \mbox{$5.8^{+0.1}_{-0.01}$} & \mbox{$5.8^{+0.1}_{-0.01}$} & \mbox{$6.1^{+0.1}_{-0.02}$} & \mbox{$6.0^{+0.05}_{-0.05}$} & \mbox{$6.0^{+0.001}_{-0.01}$} & \mbox{$5.4^{+0.1}_{-0.1}$} & \mbox{$\bm{3.1^{+0.03}_{-0.1}}$} \\
+$0.9$ & $0.999$ & \mbox{$6.4^{+0.1}_{-0.1}$} & \mbox{$5.8^{+0.05}_{-0.02}$} & \mbox{$5.8^{+0.1}_{-0.01}$} & \mbox{$5.9^{+0.1}_{-0.02}$} & \mbox{$6.1^{+0.1}_{-0.03}$} & \mbox{$6.0^{+0.005}_{-0.01}$} & \mbox{$5.1^{+0.1}_{-0.1}$} & \mbox{$\bm{3.1^{+0.01}_{-0.1}}$} \\
+$0.95$ & $0.999$ & \mbox{$6.4^{+0.1}_{-0.1}$} & \mbox{$5.8^{+0.03}_{-0.03}$} & \mbox{$5.9^{+0.02}_{-0.04}$} & \mbox{$5.8^{+0.03}_{-0.03}$} & \mbox{$6.2^{+0.1}_{-0.02}$} & \mbox{$5.9^{+0.002}_{-0.01}$} & \mbox{$4.6^{+0.2}_{-0.03}$} & \mbox{$\bm{3.1^{+0.01}_{-0.03}}$} \\
+$0.85$ & $0.9999$ & \mbox{$6.4^{+0.1}_{-0.1}$} & \mbox{$6.0^{+0.05}_{-0.02}$} & \mbox{$6.2^{+0.1}_{-0.03}$} & \mbox{$6.1^{+0.1}_{-0.01}$} & \mbox{$5.8^{+0.05}_{-0.04}$} & \mbox{$6.0^{+0.003}_{-0.004}$} & \mbox{$5.5^{+0.04}_{-0.1}$} & \mbox{$\bm{3.1^{+0.03}_{-0.1}}$} \\
+$0.9$ & $0.9999$ & \mbox{$6.4^{+0.1}_{-0.1}$} & \mbox{$6.0^{+0.05}_{-0.01}$} & \mbox{$6.2^{+0.1}_{-0.01}$} & \mbox{$6.0^{+0.1}_{-0.01}$} & \mbox{$5.8^{+0.04}_{-0.03}$} & \mbox{$6.0^{+0.001}_{-0.01}$} & \mbox{$5.2^{+0.1}_{-0.1}$} & \mbox{$\bm{3.1^{+0.01}_{-0.1}}$} \\
+$0.95$ & $0.9999$ & \mbox{$6.4^{+0.1}_{-0.1}$} & \mbox{$6.2^{+0.03}_{-0.03}$} & \mbox{$6.3^{+0.1}_{-0.04}$} & \mbox{$6.1^{+0.02}_{-0.03}$} & \mbox{$5.9^{+0.1}_{-0.01}$} & \mbox{$5.9^{+0.003}_{-0.004}$} & \mbox{$4.8^{+0.1}_{-0.05}$} & \mbox{$\bm{3.1^{+0.03}_{-0.03}}$} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table*}
+
+% END GENERATED TABLE: optimizer_beta_sweep_non_holomorphic
+\FloatBarrier
+
+% BEGIN GENERATED FIGURE: optimizer_beta_sweep_non_holomorphic
+% The 9-page source PDF is regenerated by update_paper_assets.py; this
+% figure environment is static.
+\begin{figure*}[!t]
+	\centering
+	\textbf{Loss: TEST 1 -- non-holomorphic ($\beta_1$, $\beta_2$ sweep)}\par\vspace{0.3\baselineskip}
+	\begin{minipage}[c]{0.02\linewidth}
+		\centering
+		\rotatebox{90}{Primary architecture}
+	\end{minipage}%
+	\begin{minipage}[c]{0.98\linewidth}
+		\centering
+		\subfloat[$\beta_1=0.85,\ \beta_2=0.99$]{\includegraphics[width=0.32\linewidth,page=1]{figures/optimizer_beta_sweep_non_holomorphic.pdf}}\hfill
+		\subfloat[$\beta_1=0.9,\ \beta_2=0.99$]{\includegraphics[width=0.32\linewidth,page=4]{figures/optimizer_beta_sweep_non_holomorphic.pdf}}\hfill
+		\subfloat[$\beta_1=0.95,\ \beta_2=0.99$]{\includegraphics[width=0.32\linewidth,page=7]{figures/optimizer_beta_sweep_non_holomorphic.pdf}}\\
+		\subfloat[$\beta_1=0.85,\ \beta_2=0.999$]{\includegraphics[width=0.32\linewidth,page=2]{figures/optimizer_beta_sweep_non_holomorphic.pdf}}\hfill
+		\subfloat[$\beta_1=0.9,\ \beta_2=0.999$]{\includegraphics[width=0.32\linewidth,page=5]{figures/optimizer_beta_sweep_non_holomorphic.pdf}}\hfill
+		\subfloat[$\beta_1=0.95,\ \beta_2=0.999$]{\includegraphics[width=0.32\linewidth,page=8]{figures/optimizer_beta_sweep_non_holomorphic.pdf}}\\
+		\subfloat[$\beta_1=0.85,\ \beta_2=0.9999$]{\includegraphics[width=0.32\linewidth,page=3]{figures/optimizer_beta_sweep_non_holomorphic.pdf}}\hfill
+		\subfloat[$\beta_1=0.9,\ \beta_2=0.9999$]{\includegraphics[width=0.32\linewidth,page=6]{figures/optimizer_beta_sweep_non_holomorphic.pdf}}\hfill
+		\subfloat[$\beta_1=0.95,\ \beta_2=0.9999$]{\includegraphics[width=0.32\linewidth,page=9]{figures/optimizer_beta_sweep_non_holomorphic.pdf}}
+	\end{minipage}
+	\par\vspace{0.4\baselineskip}
+	\includegraphics{figures/optimizer_beta_sweep_non_holomorphic_legend.pdf}
+	\par\vspace{0.2\baselineskip}
+	\caption{Training-set and test-set mean squared errors for the
+	Non-holomorphic benchmark over the $3\times3$ $\beta_1$/$\beta_2$
+	grid. Rows fix $\beta_2$ ($0.99$, $0.999$, $0.9999$);
+	columns fix $\beta_1$ ($0.85$, $0.9$, $0.95$). The step size is fixed to its baseline, and each panel shows the training error above the test error. Solid curves show the
+	pointwise median over the $3$ seeds; shaded regions span the
+	interquartile range (25th--75th percentile) over seeds.}
+	\label{fig:optimizer_beta_sweep_non_holomorphic}
+\end{figure*}
+% END GENERATED FIGURE: optimizer_beta_sweep_non_holomorphic
+\FloatBarrier
+
+% BEGIN GENERATED TABLE: optimizer_settings_holomorphic
+% Generated by update_paper_assets.py; do not edit manually.
+\begin{table}[!ht]
+\centering
+\caption{Configuration of the Holomorphic optimizer benchmark.}
+\label{tab:optimizer_settings_holomorphic}
+\small
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.32\linewidth}X@{}}
+\toprule
+Setting & Value \\
+\midrule
+Primary architecture & $(1,32,32,32,32,1)$, \numprint{3265} trainable parameters \\
+Secondary architecture & $(1,128,128,128,128,128,1)$, \numprint{66433} trainable parameters \\
+Hidden activation & $\exp(\zeta)$ \\
+Training / test set & \numprint{2500} / $500$ points (test: 20\%) \\
+Mini-batch size & $256$ points \\
+Updates / seeds & \numprint{12000} / $\{0,\ldots,4\}$ \\
+Arithmetic & \texttt{complex64} (32-bit real components) \\
+Initialization & beta-scaled Gaussian-fallback rule for entire activations \cite{Calafa2024}, $\beta_\mathrm{init}=0.5$; zero biases \\
+Base learning rate $\alpha$ (primary) & $5\times 10^{-5}$ \\
+Secondary-architecture learning rate & $5\times 10^{-6}$ \\
+Optimizer hyperparameters & default values; see \Cref{tab:optimizer_settings_shared} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% END GENERATED TABLE: optimizer_settings_holomorphic
+\FloatBarrier
+
+% BEGIN GENERATED TABLE: optimizer_training_time_holomorphic
+% Generated by update_paper_assets.py; do not edit manually.
+\begin{sidewaystable*}
+\centering
+\caption{Mini-batch-size sensitivity for the Holomorphic benchmark.}
+\label{tab:optimizer_training_time_holomorphic}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{adjustbox}{max width=\linewidth,center}
+\begin{tabular}{@{}ll*{10}{c}@{}}
+\toprule
+ & & \multicolumn{3}{c}{$\mathscr{L}_{\min}^{(m)}$} & \multicolumn{3}{c}{$A^{(m)}$} & \multicolumn{1}{c}{Training time ($\times$SGD)} & \multicolumn{3}{c}{NaN} \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-9}\cmidrule(lr){10-12}
+Arch. & Optimizer & 32 & 128 & 256 & 32 & 128 & 256 & 256 & 32 & 128 & 256 \\
+\midrule
+\multirow{8}{*}{Primary} & RPROP & \mbox{$(3.3^{+10.1}_{-3.1})\times10^{-2}$} & \mbox{$(1.5^{+7.5}_{-0.9})\times10^{-3}$} & \mbox{$(5.5^{+5.6}_{-1.2})\times10^{-4}$} & \mbox{$10.5^{+0.2}_{-0.5}$} & \mbox{$8.3^{+0.6}_{-0.1}$} & \mbox{$7.81^{+0.09}_{-0.04}$} & \mbox{$1.65^{+0.02}_{-0.02}$} & 1 & 0 & 0 \\
+ & Adam & \mbox{$\bm{(3.3^{+5.6}_{-0.4})\times10^{-4}}$} & \mbox{$(2.2^{+2.0}_{-0.04})\times10^{-4}$} & \mbox{$(1.3^{+1.4}_{-0.03})\times10^{-4}$} & \mbox{$8.86^{+0.06}_{-0.03}$} & \mbox{$8.14^{+0.14}_{-0.04}$} & \mbox{$7.8^{+0.2}_{-0.02}$} & \mbox{$\bm{1.55^{+0.03}_{-0.01}}$} & 0 & 0 & 0 \\
+ & Adam (variable LR) & \mbox{$(1.2^{+0.2}_{-0.1})\times10^{-3}$} & \mbox{$(6.5^{+1.1}_{-1.9})\times10^{-4}$} & \mbox{$(4.6^{+3.1}_{-3.1})\times10^{-4}$} & \mbox{$8.92^{+0.17}_{-0.03}$} & \mbox{$8.1^{+0.2}_{-0.02}$} & \mbox{$7.8^{+0.3}_{-0.2}$} & \mbox{$1.57^{+0.03}_{-0.03}$} & 0 & 0 & 0 \\
+ & NadamW & \mbox{$(3.4^{+1.4}_{-1.4})\times10^{-4}$} & \mbox{$(1.4^{+0.9}_{-0.3})\times10^{-4}$} & \mbox{$(1.2^{+0.7}_{-0.1})\times10^{-4}$} & \mbox{$8.80^{+0.05}_{-0.06}$} & \mbox{$8.0^{+0.1}_{-0.1}$} & \mbox{$7.7^{+0.2}_{-0.01}$} & \mbox{$1.58^{+0.08}_{-0.004}$} & 0 & 0 & 0 \\
+ & CvAMSGrad & \mbox{$(6.9^{+5.9}_{-1.3})\times10^{-4}$} & \mbox{$(6.8^{+0.6}_{-3.3})\times10^{-4}$} & \mbox{$(6.1^{+1.2}_{-2.9})\times10^{-4}$} & \mbox{$\bm{8.73^{+0.08}_{-0.001}}$} & \mbox{$8.1^{+0.2}_{-0.1}$} & \mbox{$7.9^{+0.2}_{-0.1}$} & \mbox{$1.63^{+0.04}_{-0.06}$} & 0 & 0 & 0 \\
+ & Muon & \mbox{$(7.8^{+4.3}_{-0.4})\times10^{-4}$} & \mbox{$(3.0^{+0.1}_{-0.1})\times10^{-4}$} & \mbox{$(2.1^{+0.3}_{-0.3})\times10^{-4}$} & \mbox{$8.76^{+0.14}_{-0.001}$} & \mbox{$8.06^{+0.11}_{-0.03}$} & \mbox{$7.80^{+0.09}_{-0.01}$} & \mbox{$1.88^{+0.03}_{-0.01}$} & 0 & 0 & 0 \\
+ & Adam-AURA & \mbox{$(4.0^{+1.1}_{-2.3})\times10^{-2}$} & \mbox{$(7.1^{+12.2}_{-0.8})\times10^{-5}$} & \mbox{$(5.2^{+0.3}_{-0.8})\times10^{-5}$} & -- & \mbox{$7.7^{+0.1}_{-0.2}$} & \mbox{$6.75^{+0.05}_{-0.03}$} & \mbox{$1.68^{+0.04}_{-0.09}$} & 5 & 2 & 0 \\
+ & Muon-AURA & \mbox{$(2.1^{+0.4}_{-1.3})\times10^{-1}$} & \mbox{$\bm{(3.3^{+0.9}_{-0.3})\times10^{-6}}$} & \mbox{$\bm{(5.3^{+2.3}_{-0.4})\times10^{-6}}$} & -- & \mbox{$\bm{5.9^{+0.6}_{-0.003}}$} & \mbox{$\bm{5.72^{+0.06}_{-0.02}}$} & \mbox{$1.90^{+0.01}_{-0.11}$} & 5 & 0 & 0 \\
+\cmidrule(lr){1-12}
+\multirow{8}{*}{Secondary} & RPROP & \mbox{$(1.3^{+0.2}_{-0.2})\times10^{0}$} & \mbox{$(4.5^{+214637.2}_{-0.4})\times10^{-5}$} & \mbox{$(7.9^{+1.5}_{-0.9})\times10^{-5}$} & -- & \mbox{$7^{+4}_{-0.1}$} & \mbox{$6.97^{+0.02}_{-0.01}$} & \mbox{$1.56^{+0.10}_{-0.03}$} & 5 & 2 & 0 \\
+ & Adam & \mbox{$(9.0^{+29.4}_{-4.5})\times10^{-4}$} & \mbox{$(1.8^{+9.3}_{-0.1})\times10^{-4}$} & \mbox{$(1.2^{+2.4}_{-0.2})\times10^{-4}$} & \mbox{$9.4^{+0.02}_{-0.4}$} & \mbox{$8.5^{+0.3}_{-0.1}$} & \mbox{$8.1^{+0.4}_{-0.2}$} & \mbox{$\bm{1.50^{+0.04}_{-0.03}}$} & 0 & 0 & 0 \\
+ & Adam (variable LR) & \mbox{$(2.0^{+2.0}_{-1.6})\times10^{-2}$} & \mbox{$(1.3^{+4.5}_{-0.5})\times10^{-3}$} & \mbox{$(2.3^{+42.5}_{-0.02})\times10^{-4}$} & \mbox{$9.6^{+0.4}_{-0.4}$} & \mbox{$8.7^{+0.3}_{-0.2}$} & \mbox{$8.1^{+0.6}_{-0.2}$} & \mbox{$1.52^{+0.03}_{-0.02}$} & 0 & 0 & 0 \\
+ & NadamW & \mbox{$(4.2^{+37.8}_{-1.6})\times10^{-4}$} & \mbox{$(9.4^{+59.2}_{-2.2})\times10^{-5}$} & \mbox{$(1.1^{+1.5}_{-0.4})\times10^{-4}$} & \mbox{$9.4^{+0.02}_{-0.4}$} & \mbox{$8.3^{+0.3}_{-0.2}$} & \mbox{$8.0^{+0.4}_{-0.3}$} & \mbox{$1.51^{+0.06}_{-0.005}$} & 0 & 0 & 0 \\
+ & CvAMSGrad & \mbox{$(1.1^{+3.4}_{-0.02})\times10^{-3}$} & \mbox{$(5.5^{+20.5}_{-3.8})\times10^{-4}$} & \mbox{$(2.6^{+16.6}_{-0.1})\times10^{-4}$} & \mbox{$9.2^{+0.1}_{-0.2}$} & \mbox{$8.3^{+0.3}_{-0.03}$} & \mbox{$7.9^{+0.5}_{-0.01}$} & \mbox{$1.53^{+0.04}_{-0.01}$} & 0 & 0 & 0 \\
+ & Muon & \mbox{$\bm{(8.5^{+0.5}_{-0.8})\times10^{-5}}$} & \mbox{$(6.7^{+1.5}_{-2.4})\times10^{-5}$} & \mbox{$(4.2^{+1.3}_{-0.6})\times10^{-5}$} & \mbox{$\bm{8.8^{+0.3}_{-0.04}}$} & \mbox{$8.4^{+0.2}_{-0.1}$} & \mbox{$8.1^{+0.1}_{-0.1}$} & \mbox{$2.09^{+0.02}_{-0.0004}$} & 0 & 0 & 0 \\
+ & Adam-AURA & \mbox{$(4.2^{+1.7}_{-3.5})\times10^{-2}$} & \mbox{$(3.5^{+4.3}_{-0.3})\times10^{-5}$} & \mbox{$(1.9^{+0.6}_{-0.1})\times10^{-5}$} & -- & \mbox{$7.5^{+0.5}_{-0.2}$} & \mbox{$6.67^{+0.06}_{-0.11}$} & \mbox{$1.60^{+0.06}_{-0.06}$} & 5 & 1 & 0 \\
+ & Muon-AURA & \mbox{$(1.8^{+0.4}_{-1.1})\times10^{-1}$} & \mbox{$\bm{(7.4^{+20.3}_{-4.8})\times10^{-6}}$} & \mbox{$\bm{(1.6^{+0.1}_{-0.1})\times10^{-6}}$} & -- & \mbox{$\bm{6.7^{+0.4}_{-0.5}}$} & \mbox{$\bm{5.20^{+0.0002}_{-0.05}}$} & \mbox{$2.03^{+0.02}_{-0.02}$} & 5 & 1 & 0 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{sidewaystable*}
+
+% END GENERATED TABLE: optimizer_training_time_holomorphic
+\FloatBarrier
+
+% BEGIN GENERATED FIGURE: optimizer_losses_holomorphic
+\begin{figure*}[!t]
+	\centering
+	\textbf{Loss: TEST 2 -- holomorphic}\par\vspace{0.3\baselineskip}
+	\begin{minipage}[c]{0.02\linewidth}
+		\centering
+		\rotatebox{90}{Primary architecture}
+	\end{minipage}%
+	\begin{minipage}[c]{0.98\linewidth}
+		\centering
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{Mini-batch $=32$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=1]{figures/optimizer_losses_holomorphic.pdf}
+		\end{minipage}\\
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{Mini-batch $=128$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=2]{figures/optimizer_losses_holomorphic.pdf}
+		\end{minipage}\\
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{Mini-batch $=256$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=3]{figures/optimizer_losses_holomorphic.pdf}
+		\end{minipage}
+	\end{minipage}\\[0.8\baselineskip]
+	\begin{minipage}[c]{0.02\linewidth}
+		\centering
+		\rotatebox{90}{Secondary architecture}
+	\end{minipage}%
+	\begin{minipage}[c]{0.98\linewidth}
+		\centering
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{Mini-batch $=32$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=4]{figures/optimizer_losses_holomorphic.pdf}
+		\end{minipage}\\
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{Mini-batch $=128$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=5]{figures/optimizer_losses_holomorphic.pdf}
+		\end{minipage}\\
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{Mini-batch $=256$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=6]{figures/optimizer_losses_holomorphic.pdf}
+		\end{minipage}
+	\end{minipage}
+	\par\vspace{0.4\baselineskip}
+	\includegraphics{figures/optimizer_losses_holomorphic_legend.pdf}
+	\par\vspace{0.2\baselineskip}
+	\caption{Training-set (left panel of each row) and test-set (right panel) mean squared errors for the Holomorphic optimizer benchmark. The two architecture blocks show the same feedforward network trained independently at two architectures (\Cref{tab:optimizer_settings_holomorphic}): the primary architecture $(1,32,32,32,32,1)$ (\numprint{3265} parameters) at the top, and the wider and deeper secondary architecture $(1,128,128,128,128,128,1)$ (\numprint{66433} parameters), trained at a ten-times-smaller step size, at the bottom. Within each architecture block, the rows sweep the mini-batch size across $32$, $128$ and $256$ points from top to bottom at a fixed \numprint{12000}-update budget, so a smaller mini-batch means fewer epochs over the training set, not fewer optimizer updates. Solid curves show the pointwise median over all $5$ seeds; shaded regions span the interquartile range (25th--75th percentile) over seeds, whose edges are also drawn as dotted curves.}
+	\label{fig:optimizer_losses_holomorphic}
+\end{figure*}
+
+% END GENERATED FIGURE: optimizer_losses_holomorphic
+\FloatBarrier
+
+% BEGIN GENERATED TABLE: optimizer_settings_multivariate_c4
+% Generated by update_paper_assets.py; do not edit manually.
+\begin{table}[!ht]
+\centering
+\caption{Configuration of the Multivariate C4 optimizer benchmark.}
+\label{tab:optimizer_settings_multivariate_c4}
+\small
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.32\linewidth}X@{}}
+\toprule
+Setting & Value \\
+\midrule
+Network architecture & $(4,128,128,128,128,128,1)$, \numprint{66817} trainable parameters \\
+Hidden activation & $\tanh(\real\zeta)+\mathrm i\tanh(\imag\zeta)$ (componentwise across the four inputs) \\
+Training / test set & \numprint{1296} / $259$ points (test: 20\%) \\
+Mini-batch size & $128$ points \\
+Updates / seeds & \numprint{12000} / $\{0,\ldots,4\}$ \\
+Arithmetic & \texttt{complex64} and \texttt{complex128} (single- and double-precision real components; both swept) \\
+Initialization & Glorot/Xavier normal rule \cite{Glorot2010}, applied separately to the real and imaginary parts; zero biases \\
+Base learning rate $\alpha$ & $1\times 10^{-4}$, swept over $\alpha/10$, $\alpha$ and $10\alpha$ \\
+Optimizer hyperparameters & default values; see \Cref{tab:optimizer_settings_shared} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% END GENERATED TABLE: optimizer_settings_multivariate_c4
+\FloatBarrier
+
+% BEGIN GENERATED TABLE: optimizer_training_time_multivariate_c4
+% Generated by update_paper_assets.py; do not edit manually.
+\begin{table*}[!t]
+\centering
+\caption{Step-size and precision sensitivity for the Multivariate C4 benchmark.}
+\label{tab:optimizer_training_time_multivariate_c4}
+\small
+\setlength{\tabcolsep}{3pt}
+\begin{adjustbox}{max width=\linewidth,center}
+\begin{tabular}{@{}ll*{7}{c}@{}}
+\toprule
+ & & \multicolumn{3}{c}{$\mathscr{L}_{\min}^{(m)}\ (\times10^{-4})$} & \multicolumn{3}{c}{$A^{(m)}$} & Training time ($\times$SGD) \\
+\cmidrule(lr){3-5}\cmidrule(lr){6-8}\cmidrule(lr){9-9}
+Prec. & Optimizer & $\alpha/10$ & $\alpha$ & $10\alpha$ & $\alpha/10$ & $\alpha$ & $10\alpha$ & $\alpha$ \\
+\midrule
+\multirow{8}{*}{Single} & RPROP & \mbox{$38^{+3}_{-4}$} & \mbox{$36^{+2}_{-1}$} & \mbox{$31^{+5}_{-2}$} & \mbox{$8.04^{+0.01}_{-0.07}$} & \mbox{$7.97^{+0.15}_{-0.01}$} & \mbox{$7.927^{+0.009}_{-0.007}$} & \mbox{$1.55^{+0.05}_{-0.02}$} \\
+ & Adam & \mbox{$361^{+19}_{-14}$} & \mbox{$4.1^{+0.2}_{-0.2}$} & \mbox{$2.2^{+0.04}_{-0.1}$} & \mbox{$9.50^{+0.002}_{-0.05}$} & \mbox{$8.02^{+0.02}_{-0.05}$} & \mbox{$7.85^{+0.02}_{-0.01}$} & \mbox{$1.55^{+0.0004}_{-0.11}$} \\
+ & Adam (variable LR) & \mbox{$997^{+49}_{-143}$} & \mbox{$12^{+0.5}_{-0.5}$} & \mbox{$1.7^{+0.1}_{-0.1}$} & \mbox{$9.68^{+0.01}_{-0.07}$} & \mbox{$8.15^{+0.005}_{-0.10}$} & \mbox{$7.40^{+0.04}_{-0.002}$} & \mbox{$1.53^{+0.03}_{-0.01}$} \\
+ & NadamW & \mbox{$321^{+35}_{-7}$} & \mbox{$7.4^{+0.3}_{-0.4}$} & \mbox{$8.9^{+0.6}_{-3.3}$} & \mbox{$9.50^{+0.001}_{-0.05}$} & \mbox{$8.23^{+0.01}_{-0.04}$} & \mbox{$8.43^{+0.01}_{-0.03}$} & \mbox{$\bm{1.51^{+0.03}_{-0.01}}$} \\
+ & CvAMSGrad & \mbox{$1821^{+3}_{-508}$} & \mbox{$18^{+0.1}_{-5}$} & \mbox{$2.2^{+0.2}_{-0.01}$} & \mbox{$9.84^{+0.02}_{-0.06}$} & \mbox{$8.25^{+0.03}_{-0.13}$} & \mbox{$7.34^{+0.03}_{-0.03}$} & \mbox{$1.6^{+0.1}_{-0.1}$} \\
+ & Muon & \mbox{$0.8^{+0.01}_{-0.1}$} & \mbox{$27^{+0.5}_{-1}$} & \mbox{$12^{+0.1}_{-0.4}$} & \mbox{$8.35^{+0.03}_{-0.09}$} & \mbox{$7.75^{+0.01}_{-0.02}$} & \mbox{$7.818^{+0.017}_{-0.003}$} & \mbox{$2.128^{+0.013}_{-0.006}$} \\
+ & Adam-AURA & \mbox{$1.2^{+0.03}_{-0.04}$} & \mbox{$0.8^{+0.1}_{-0.1}$} & \mbox{$0.9^{+0.2}_{-0.01}$} & \mbox{$7.10^{+0.06}_{-0.01}$} & \mbox{$6.74^{+0.06}_{-0.004}$} & \mbox{$6.68^{+0.09}_{-0.02}$} & \mbox{$1.62^{+0.07}_{-0.002}$} \\
+ & Muon-AURA & \mbox{$\bm{0.1^{+0.01}_{-0.003}}$} & \mbox{$\bm{0.1^{+0.01}_{-0.001}}$} & \mbox{$\bm{0.1^{+0.005}_{-0.002}}$} & \mbox{$\bm{5.75^{+0.01}_{-0.03}}$} & \mbox{$\bm{5.64^{+0.01}_{-0.06}}$} & \mbox{$\bm{5.34^{+0.02}_{-0.03}}$} & \mbox{$2.07^{+0.02}_{-0.02}$} \\
+\cmidrule(lr){1-9}
+\multirow{8}{*}{Double} & RPROP & \mbox{$41^{+23}_{-10}$} & \mbox{$27^{+1}_{-1}$} & \mbox{$32^{+1}_{-5}$} & \mbox{$8.1^{+0.2}_{-0.2}$} & \mbox{$7.85^{+0.04}_{-0.01}$} & \mbox{$7.903^{+0.004}_{-0.005}$} & \mbox{$\bm{1.55^{+0.06}_{-0.01}}$} \\
+ & Adam & \mbox{$332^{+42}_{-10}$} & \mbox{$4.1^{+0.1}_{-0.1}$} & \mbox{$2.0^{+0.1}_{-0.1}$} & \mbox{$9.47^{+0.04}_{-0.01}$} & \mbox{$8.01^{+0.01}_{-0.05}$} & \mbox{$7.860^{+0.006}_{-0.010}$} & \mbox{$1.62^{+0.02}_{-0.02}$} \\
+ & Adam (variable LR) & \mbox{$1010^{+6}_{-111}$} & \mbox{$10^{+1}_{-0.5}$} & \mbox{$1.7^{+0.2}_{-0.1}$} & \mbox{$9.65^{+0.05}_{-0.02}$} & \mbox{$8.09^{+0.04}_{-0.06}$} & \mbox{$7.411^{+0.002}_{-0.017}$} & \mbox{$1.61^{+0.07}_{-0.07}$} \\
+ & NadamW & \mbox{$291^{+46}_{-11}$} & \mbox{$7.0^{+1.1}_{-0.3}$} & \mbox{$7.7^{+1.8}_{-1.4}$} & \mbox{$9.46^{+0.05}_{-0.01}$} & \mbox{$8.22^{+0.005}_{-0.03}$} & \mbox{$8.426^{+0.003}_{-0.010}$} & \mbox{$1.644^{+0.006}_{-0.007}$} \\
+ & CvAMSGrad & \mbox{$1540^{+179}_{-170}$} & \mbox{$16^{+4}_{-0.4}$} & \mbox{$2.4^{+0.3}_{-0.1}$} & \mbox{$9.79^{+0.05}_{-0.002}$} & \mbox{$8.16^{+0.08}_{-0.05}$} & \mbox{$7.35^{+0.04}_{-0.02}$} & \mbox{$1.55^{+0.10}_{-0.05}$} \\
+ & Muon & \mbox{$1.2^{+0.1}_{-0.1}$} & \mbox{$30^{+0.4}_{-1}$} & \mbox{$14^{+0.4}_{-1}$} & \mbox{$8.4^{+0.2}_{-0.1}$} & \mbox{$7.781^{+0.016}_{-0.0001}$} & \mbox{$7.86^{+0.02}_{-0.05}$} & \mbox{$2.47^{+0.04}_{-0.02}$} \\
+ & Adam-AURA & \mbox{$1.2^{+0.2}_{-0.02}$} & \mbox{$0.9^{+0.1}_{-0.1}$} & \mbox{$0.9^{+0.2}_{-0.1}$} & \mbox{$7.14^{+0.02}_{-0.02}$} & \mbox{$6.78^{+0.03}_{-0.02}$} & \mbox{$6.69^{+0.05}_{-0.07}$} & \mbox{$1.76^{+0.06}_{-0.08}$} \\
+ & Muon-AURA & \mbox{$\bm{0.1^{+0.01}_{-0.002}}$} & \mbox{$\bm{0.03^{+0.002}_{-0.002}}$} & \mbox{$\bm{0.03^{+0.002}_{-0.001}}$} & \mbox{$\bm{5.64^{+0.05}_{-0.07}}$} & \mbox{$\bm{5.36^{+0.03}_{-0.02}}$} & \mbox{$\bm{5.13^{+0.02}_{-0.02}}$} & \mbox{$2.44^{+0.07}_{-0.04}$} \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table*}
+
+% END GENERATED TABLE: optimizer_training_time_multivariate_c4
+\FloatBarrier
+
+% BEGIN GENERATED FIGURE: optimizer_losses_multivariate_c4
+\begin{figure*}[!t]
+	\centering
+	\textbf{Loss: TEST 3 -- multivariate $\CC^4$}\par\vspace{0.3\baselineskip}
+	\begin{minipage}[c]{0.02\linewidth}
+		\centering
+		\rotatebox{90}{Single precision}
+	\end{minipage}%
+	\begin{minipage}[c]{0.98\linewidth}
+		\centering
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{$\alpha/10$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=1]{figures/optimizer_losses_multivariate_c4.pdf}
+		\end{minipage}\\
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{$\alpha$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=2]{figures/optimizer_losses_multivariate_c4.pdf}
+		\end{minipage}\\
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{$10\alpha$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=3]{figures/optimizer_losses_multivariate_c4.pdf}
+		\end{minipage}
+	\end{minipage}\\[0.8\baselineskip]
+	\begin{minipage}[c]{0.02\linewidth}
+		\centering
+		\rotatebox{90}{Double precision}
+	\end{minipage}%
+	\begin{minipage}[c]{0.98\linewidth}
+		\centering
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{$\alpha/10$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=4]{figures/optimizer_losses_multivariate_c4.pdf}
+		\end{minipage}\\
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{$\alpha$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=5]{figures/optimizer_losses_multivariate_c4.pdf}
+		\end{minipage}\\
+		\begin{minipage}[c]{0.02\linewidth}
+			\centering
+			\rotatebox{90}{$10\alpha$}
+		\end{minipage}%
+		\begin{minipage}[c]{0.98\linewidth}
+			\centering
+			\includegraphics[width=0.80\linewidth,page=6]{figures/optimizer_losses_multivariate_c4.pdf}
+		\end{minipage}
+	\end{minipage}
+	\par\vspace{0.4\baselineskip}
+	\includegraphics{figures/optimizer_losses_multivariate_c4_legend.pdf}
+	\par\vspace{0.2\baselineskip}
+	\caption{Training-set and test-set mean squared errors for the Multivariate C4 optimizer benchmark, on the single benchmark architecture $(4,128,128,128,128,128,1)$ (\numprint{66817} parameters; \Cref{tab:optimizer_settings_multivariate_c4}). The two precision blocks show the same network trained in single-precision (\texttt{complex64}, top) and double-precision (\texttt{complex128}, bottom) arithmetic. Within each precision block, the rows sweep the base step size $\alpha = 1\times 10^{-4}$ across $\alpha/10$, $\alpha$ and $10\alpha$ from top to bottom. Solid curves show the pointwise median over all $5$ seeds; shaded regions span the interquartile range (25th--75th percentile) over seeds, whose edges are also drawn as dotted curves.}
+	\label{fig:optimizer_losses_multivariate_c4}
+\end{figure*}
+
+% END GENERATED FIGURE: optimizer_losses_multivariate_c4
+\FloatBarrier
+
+% Hand-edited copy of the generated 4-PINN settings table (tuned hyperparameters,
+% 4-PINN-opt/results); not maintained by update_paper_assets.py.
+\begin{table}[!ht]
+	\centering
+	\caption{Configuration of the 4-PINN optimizer benchmark.}
+	\label{tab:optimizer_settings_pinn}
+	\small
+	\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{0.32\linewidth}X@{}}
+		\toprule
+		Setting & Value \\
+		\midrule
+		Architecture (each of $\varphi,\psi$) & $(1,64,64,64,1)$, \numprint{17026} trainable parameters in total \\
+		Hidden activation & $\exp(\zeta)$ \\
+		Training / test set & $200$ / $20$ boundary points (full batch, no mini-batching) \\
+		Updates / seeds & \numprint{6000} / $\{0,\ldots,4\}$ (weight initialization only, boundary sampling fixed) \\
+		Arithmetic & \texttt{complex64} (32-bit real components) \\
+		Initialization & PIHNN CLT-based rule \cite{Calafa2024} (their Algorithm~1), $\beta_\mathrm{init}=0.5$; zero biases \\
+		Base learning rate $\alpha$ & $1\times 10^{-3}$, starting point of the search; tuned values in \Cref{tab:optimizer_hpo_pinn} \\
+		Optimizer hyperparameters & tuned per method (\Cref{tab:optimizer_hpo_pinn}), starting from the default values of \Cref{tab:optimizer_settings_shared} \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+\FloatBarrier
+
+% Hand-written from 4-PINN-opt/results/hpo/hpo.md (search boxes of sweep_hpo.py and selected
+% values); not maintained by update_paper_assets.py.
+\begin{table*}[!t]
+	\centering
+	\caption{Hyperparameter search of the 4-PINN benchmark.}
+	\label{tab:optimizer_hpo_pinn}
+	\small
+	\begin{tabularx}{\linewidth}{@{}l>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X@{}}
+		\toprule
+		Optimizer & Search space & Selected values \\
+		\midrule
+		RPROP & $\alpha\in[10^{-4},10^{-1}]$, $1-\eta_-\in[0.01,0.6]$, $\eta_+-1\in[0.005,0.5]$ & $\alpha=9.727\times 10^{-3}$, $\eta_-=0.7131$, $\eta_+=1.179$ \\
+		Adam & $\alpha\in[10^{-4},10^{-1}]$, $1-\beta_1\in[10^{-3},0.3]$, $1-\beta_2\in[10^{-4},0.1]$ & $\alpha=1.888\times 10^{-3}$, $\beta_1=0.9843$, $\beta_2=0.9998$ \\
+		Adam (variable LR) & as Adam & $\alpha=3.968\times 10^{-3}$, $\beta_1=0.9851$, $\beta_2=0.9229$ \\
+		NadamW & as Adam, and weight decay $\in[10^{-5},0.1]$ & $\alpha=1.249\times 10^{-3}$, $\beta_1=0.9969$, $\beta_2=0.9795$, weight decay $3.437\times 10^{-5}$ \\
+		CvAMSGrad & as Adam & $\alpha=3.403\times 10^{-3}$, $\beta_1=0.9818$, $\beta_2=0.998$ \\
+		Muon & $\alpha\in[10^{-4},10^{-1}]$, $1-\beta\in[10^{-3},0.3]$ & $\alpha=2.898\times 10^{-4}$, $\beta=0.9962$ \\
+		Adam-AURA & $\alpha\in[10^{-4},10^{-1}]$, $1-\beta_\zeta\in[0.01,0.6]$, $\chi_\mathrm{a}\in[0.5,0.98]$, $\chi_\mathrm{a}-\chi_\mathrm{o}\in[0.02,1.2]$, $\Psi_\mathrm{o}\in[0.01,0.9]$, $\Psi_\mathrm{a}/\Psi_\mathrm{o}\in[0.005,0.9]$; $\beta_1$, $\beta_2$ as selected for Adam & $\alpha=1.171\times 10^{-3}$, $\beta_\zeta=0.973$, $\chi_\mathrm{a}=0.7383$, $\chi_\mathrm{o}=-0.4217$, $\Psi_\mathrm{a}=0.02422$, $\Psi_\mathrm{o}=0.03051$ \\
+		Muon-AURA & as Muon and as Adam-AURA & $\alpha=1.816\times 10^{-3}$, $\beta=0.9732$, $\beta_\zeta=0.8016$, $\chi_\mathrm{a}=0.677$, $\chi_\mathrm{o}=-0.0416$, $\Psi_\mathrm{a}=0.0167$, $\Psi_\mathrm{o}=0.1191$ \\
+		\bottomrule
+	\end{tabularx}
+\end{table*}
+\FloatBarrier
+
+% Hand-written: min training loss, A and NaN from 4-PINN-opt/results (tuned hyperparameters),
+% time ratio from 4-PINN/results (default hyperparameters); not maintained by update_paper_assets.py.
+\begin{table}[!ht]
+	\centering
+	\caption{Training loss and training time for the 4-PINN benchmark at the tuned hyperparameters of \Cref{tab:optimizer_hpo_pinn}.}
+	\label{tab:optimizer_training_time_pinn}
+	\footnotesize
+	\setlength{\tabcolsep}{3pt}
+	\begin{adjustbox}{max width=\linewidth,center}
+	\begin{tabular}{@{}l*{4}{c}@{}}
+		\toprule
+		Optimizer & $\mathscr{L}_{\min}^{(m)}$ & $A^{(m)}$ & Training time ($\times$SGD) & NaN \\
+		\midrule
+		RPROP & \mbox{$(4.3^{+2.5}_{-2.0})\times10^{-5}$} & \mbox{$5.9^{+0.1}_{-0.2}$} & \mbox{$1.2^{+0.1}_{-0.1}$} & 1 \\
+		Adam & \mbox{$(1.0^{+0.02}_{-0.1})\times10^{-5}$} & \mbox{$6.26^{+0.01}_{-0.01}$} & \mbox{$\bm{1.21^{+0.03}_{-0.003}}$} & 0 \\
+		Adam (variable LR) & \mbox{$(1.8^{+0.5}_{-0.4})\times10^{-5}$} & \mbox{$6.3^{+0.1}_{-0.2}$} & \mbox{$1.254^{+0.003}_{-0.009}$} & 1 \\
+		NadamW & \mbox{$(2.2^{+0.2}_{-0.03})\times10^{-6}$} & \mbox{$5.76^{+0.02}_{-0.02}$} & \mbox{$1.249^{+0.001}_{-0.006}$} & 0 \\
+		CvAMSGrad & \mbox{$(5.7^{+1.5}_{-1.2})\times10^{-6}$} & \mbox{$6.0^{+0.2}_{-0.1}$} & \mbox{$1.37^{+0.02}_{-0.02}$} & 0 \\
+		Muon & \mbox{$(8.0^{+0.9}_{-1.1})\times10^{-5}$} & \mbox{$6.60^{+0.05}_{-0.005}$} & \mbox{$1.47^{+0.0004}_{-0.05}$} & 0 \\
+		Adam-AURA & \mbox{$(1.3^{+0.4}_{-0.1})\times10^{-6}$} & \mbox{$4.96^{+0.05}_{-0.05}$} & \mbox{$1.39^{+0.04}_{-0.03}$} & 0 \\
+		Muon-AURA & \mbox{$\bm{(6.3^{+1.6}_{-0.7})\times10^{-7}}$} & \mbox{$\bm{4.46^{+0.01}_{-0.12}}$} & \mbox{$2.09^{+0.01}_{-0.01}$} & 0 \\
+		\bottomrule
+	\end{tabular}
+	\end{adjustbox}
+\end{table}
+\FloatBarrier
+
+% Rows: 4-PINN/results/paper_losses.pdf (default hyperparameters) and
+% 4-PINN-opt/results/paper_losses.pdf (tuned), copied by hand to figures/.
+\begin{figure*}[!t]
+	\centering
+	\textbf{Loss: TEST 4 -- PINN}\par\vspace{0.3\baselineskip}
+	\begin{minipage}[c]{0.02\linewidth}
+		\centering
+		\rotatebox{90}{Default hyperparameters}
+	\end{minipage}%
+	\begin{minipage}[c]{0.98\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{figures/pinn_losses.pdf}
+	\end{minipage}\\[0.4\baselineskip]
+	\begin{minipage}[c]{0.02\linewidth}
+		\centering
+		\rotatebox{90}{Tuned hyperparameters}
+	\end{minipage}%
+	\begin{minipage}[c]{0.98\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{figures/pinn_losses_hpo.pdf}
+	\end{minipage}
+	\par\vspace{0.4\baselineskip}
+	\includegraphics{figures/pinn_losses_legend.pdf}
+	\par\vspace{0.2\baselineskip}
+	\caption{Training-set and test-set mean squared errors (boundary loss
+		\eqref{eq:pihnn_loss}) for the 4-PINN optimizer benchmark. The two
+		rows show the same network trained at the default hyperparameters of
+		\Cref{tab:optimizer_settings_shared} with $\alpha = 10^{-3}$ (top) and
+		at the tuned hyperparameters of \Cref{tab:optimizer_hpo_pinn}
+		(bottom). Solid curves
+		show the pointwise median over all $5$ seeds; shaded regions span the
+		interquartile range (25th--75th percentile) over seeds, whose edges
+		are also drawn as dotted curves.}
+	\label{fig:optimizer_losses_pinn}
+\end{figure*}
+\FloatBarrier
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=\linewidth]{figures/plot_GM_AM.pdf}
+	\caption{Dice-like against Salton-like measure as a function of the ratio $r = |d_{j,t}|/|d_{j,t-1}|$
+	of consecutive step lengths, see \eqref{eq:aura_gm_am}. The Salton-like measure has unit modulus for every
+	$r$, whereas the Dice-like one decays as the two lengths separate.}
+	\label{fig:aura_gm_am}
+\end{figure}
+
+\end{document}
