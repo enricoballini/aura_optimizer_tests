@@ -13,8 +13,9 @@ import time
 import uuid
 from pathlib import Path
 
-# Before importing JAX: backend selection happens at import.
-os.environ["JAX_PLATFORMS"] = os.environ.get("PINN_JAX_PLATFORMS", "cuda")
+# Before importing JAX: backend selection happens at import. Empty = auto (GPU if available, else CPU);
+# set PINN_JAX_PLATFORMS=cuda to fail instead of silently falling back to CPU.
+os.environ["JAX_PLATFORMS"] = os.environ.get("PINN_JAX_PLATFORMS", "")
 
 import jax
 import jax.numpy as jnp

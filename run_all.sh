@@ -9,9 +9,6 @@ case_dirs=(
     2-holomorphic
     3-multivariate_c4
     4-PINN
-    # 5-CIFAR-10
-    # 6-U-net
-    # 100-innovation
 )
 
 for case_dir in "${case_dirs[@]}"; do
