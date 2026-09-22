@@ -28,7 +28,7 @@ old/
 !*.sh
 !*.pvsm
 !*.tex
-!README.MD
+!README.md
 
 # Keep this ignore policy tracked.
 !.gitignore
